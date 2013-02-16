@@ -17,7 +17,7 @@ class wp_eventdove_meeting {
     var $menu_title = 'EventDove Meeting';
 
     static $taxonomy = "eventdove-meeting";
-    static $terms = array("name" => "Events", "slug" => "events");
+    static $terms = array("name" => "Eventdove", "slug" => "eventdove");
     static $option_name = 'eventdove_meeting_token';
 /*}}}*/
 /*{{{ contruct */
@@ -70,12 +70,12 @@ class wp_eventdove_meeting {
 /*{{{ nav_menu */
     function nav_menu() {
         $category_labels = array(
-            'name' => __('EventDove Meetting', 'eventdove-meeting'),
+            'name' => __($this->menu_title, self::$taxonomy),
             'all_items' => __( 'All Categories' ),
             'menu_name' => __( 'Categories' ),
         );
 
-        register_taxonomy(self::$taxonomy, array('eventdove'), array(
+        register_taxonomy(self::$taxonomy, array(self::$terms["slug"]), array(
             'hierarchical' => false,
             'labels' => $category_labels,
             'show_ui' => true,
@@ -87,7 +87,7 @@ class wp_eventdove_meeting {
 /*}}}*/
 /*{{{ template_include */
     function template_include($template){
-        if (is_tax("eventdove-meeting")) {
+        if (get_query_var("name") == self::$terms["slug"]) {
             if (!$_GET["id"]) {
                 // List
                 $template = PLUG_EVENTDOVE_ROOT . "/templates/event_list.php";
@@ -110,7 +110,7 @@ class wp_eventdove_meeting {
     function options_page() {
         $token = get_option(self::$option_name);
         $new = trim($_POST[self::$option_name]);
-        if (isset($new) && $token != $new) {
+        if (isset($_POST[self::$option_name]) && $token != $new) {
             if (update_option(self::$option_name, $new)) {
                 $message = _e("Success to save.");
             } else {
