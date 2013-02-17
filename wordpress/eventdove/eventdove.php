@@ -88,6 +88,9 @@ class wp_eventdove_meeting {
 /*{{{ template_include */
     function template_include($template){
         if (get_query_var("name") == self::$terms["slug"]) {
+            add_filter('wp_title', create_function('$title, $sep', '
+                return array_shift(explode("|", $title)) . "| " . __("Events");
+            '), 10, 2);
             if (!$_GET["id"]) {
                 // List
                 $template = PLUG_EVENTDOVE_ROOT . "/templates/event_list.php";
@@ -199,6 +202,16 @@ class wp_eventdove_meeting {
             }
         } catch(Exception $ex) {
             // Do nothing;
+        }
+
+        foreach ($events as &$val) {
+            uasort($val, create_function('$a, $b', '
+                if ($a["startTime"] == $b["startTime"]) {
+                    return 0;
+                }
+                return ($a["startTime"] > $b["startTime"]) ? -1 : 1;
+                '
+            ));
         }
 
         return $events;
