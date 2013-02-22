@@ -12,19 +12,17 @@ define("PLUG_EVENTDOVE_ROOT", dirname(__FILE__));
 class wp_eventdove_meeting {
 
 /*{{{ variable */
-    var $package = "eventdove";
     var $page_title = 'EventDove Meeting Setting';
     var $menu_title = 'EventDove Meeting';
 
-    static $taxonomy = "eventdove-meeting";
-    static $terms = array("name" => "Eventdove", "slug" => "eventdove");
+    static $taxonomy = "events";
+    static $terms = array("name" => "Eventdove", "slug" => "meeting");
     static $option_name = 'eventdove_meeting_token';
 /*}}}*/
 /*{{{ contruct */
     function wp_eventdove_meeting() {
         register_activation_hook(__FILE__, array(&$this, "install"));
         register_uninstall_hook(__FILE__, array("wp_eventdove_meeting", "uninstall"));
-        //register_deactivation_hook(__FILE__, array(&$this, "uninstall"));
 
         add_action("admin_menu", array(&$this, "add_options_page"));
         add_action("init", array(&$this, "nav_menu"));
@@ -45,7 +43,7 @@ class wp_eventdove_meeting {
             $wpdb->insert($wpdb->term_taxonomy, array(
                 "term_id" => $wpdb->insert_id,
                 "taxonomy" => self::$taxonomy,
-                "description" => $this->package,
+                "description" => self::$terms["slug"],
                 "parent" => 0,
                 "count" => 0,
             ));
@@ -87,7 +85,8 @@ class wp_eventdove_meeting {
 /*}}}*/
 /*{{{ template_include */
     function template_include($template){
-        if (get_query_var("name") == self::$terms["slug"]) {
+        if (get_query_var("name") == self::$terms["slug"] || is_tax(self::$taxonomy)) {
+
             add_filter('wp_title', create_function('$title, $sep', '
                 return array_shift(explode("|", $title)) . "| " . __("Events");
             '), 10, 2);
@@ -120,7 +119,7 @@ class wp_eventdove_meeting {
                 $message = _e("Fail to save.");
             }
             $token = $new;
-        }        
+        }
 ?>
 <div class="wrap">
     <h2><?php _e('EventDove Meeting Setting'); ?></h2>
@@ -128,7 +127,7 @@ class wp_eventdove_meeting {
     <div style="background-color: #3f3f3f">
         <?php echo $message; ?>
     </div>
-<?php endif;?>    
+<?php endif;?>
     <form action="<?php echo esc_attr(add_query_arg('save', 'true')); ?>" method="post"><?php wp_nonce_field('update-options');?>
         <p><?php _e('Token:'); ?>
         <input type="text" name="<?php echo self::$option_name; ?>" value="<?php echo $token; ?>" style="width:300px" /></p>
