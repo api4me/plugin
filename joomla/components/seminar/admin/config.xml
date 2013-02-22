@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="component">
+        <field
+            type="text" 
+            name="mailfrom" 
+            size="80" 
+            default="seminars@acls-ma.org" 
+            label="Mail From Address:"
+            description="please enter the required mail from address" />
+        <field
+            type="textarea" 
+            name="mailto" 
+            rows="10" 
+            cols="50" 
+            default="acton_chinese@yahoogroups.com" 
+            label="Mail To Address:" 
+            description="please enter the required mail to address(each mail address in a line)" />
+    </fieldset>
+
+</config>

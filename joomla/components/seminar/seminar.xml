@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5" method="upgrade">
+    <name>seminar</name>
+    <author>Fred Zhou</author>
+    <creationDate>Feb 2013</creationDate>
+    <authorEmail>fred.zhou@echoname.com</authorEmail>
+    <authorUrl>http://www.echoname.com</authorUrl>
+    <copyright>Copyright Info</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>1.0.0</version>
+    <description>ACLS Seminar</description>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.seminar.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.seminar.sql</file>
+        </sql>
+    </uninstall>
+
+    <files folder="site">
+        <filename>index.html</filename>
+        <filename>seminar.php</filename>
+        <folder>controllers</folder>
+        <folder>models</folder>
+        <folder>views</folder>
+    </files>
+
+    <languages folder="site">
+        <language tag="en-GB">language/en-GB.com_seminar.ini</language>
+    </languages>
+
+    <administration>
+        <menu>ACLS seminar</menu>
+        <files folder="admin">
+            <filename>index.html</filename>
+            <filename>admin.seminar.php</filename>
+            <filename>config.xml</filename>
+            <folder>controllers</folder>
+            <folder>models</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
+            <folder>sql</folder>
+        </files>
+        <languages folder="admin">
+            <language tag="en-GB">language/en-GB.com_seminar.ini</language>
+        </languages>
+    </administration>
+</extension>
+
+
+
