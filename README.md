@@ -1,4 +1,4 @@
-plugin
+Plugin
 ======
 
 PHP Tools
