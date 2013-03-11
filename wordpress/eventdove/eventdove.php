@@ -171,6 +171,9 @@ class wp_eventdove_meeting {
                 return false;
             }
 
+            if (!isset($data["returnObject"]) || !is_array($data["returnObject"])) {
+                return false;
+            }
             foreach ($data["returnObject"] as $val) {
                 // eventTitle
                 // subdomainName
