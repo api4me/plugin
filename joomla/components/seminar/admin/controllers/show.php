@@ -12,7 +12,7 @@ class SeminarControllerShow extends JController{
         $control = JRequest::getVar('_control_');
         $this->view = $this->getView($control, 'html');
         $this->model = $this->getModel($control);
-        $this->registerTask('apply',  'save');
+        $this->registerTask('publish',  'save');
     }
 /*}}}*/
 /*{{{ display */
@@ -31,7 +31,11 @@ class SeminarControllerShow extends JController{
         $data = $this->model->load();
         if ($data->status == '2') {
             JToolBarHelper::divider();
-            JToolBarHelper::custom($control . '.send', 'send.png', 'send_f2.png', 'Send email', false);
+            // JToolBarHelper::custom($control . '.send', 'send.png', 'send_f2.png', 'Send email', false);
+            // JToolBarHelper::preview("index.php?option={$option}&tmpl=component");
+            $bar = JToolBar::getInstance('toolbar');
+            // Add an upload button.
+            $bar->appendButton('Popup', 'preview', 'Preview', "index.php?option={$option}&tmpl=component&task=preview", 800, 600);
         } else {
             $link = "index.php?option={$option}&load=true";
             $this->view->assignRef('notice', JText::sprintf("Current is draf, please click \"Save & Publish\" button, then \"Send email\" button will be appeared. If load template, please click <a href=\"%s\"> here </a>.", $link));
@@ -87,71 +91,6 @@ class SeminarControllerShow extends JController{
                 break;
         }
         $app->enqueueMessage(JText::_('Announcement Saved'));
-        $link = "index.php?option={$option}";
-        $app->redirect($link);
-    }
-/*}}}*/
-/*{{{ publish */
-    function publish() {
-        $option = JRequest::getCmd('option');
-        $app = JFactory::getApplication('administrator');
-
-        // Check for request forgeries
-        JRequest::checkToken() or die('Invalid Token');
-
-        if ($this->getTask() == 'publish') {
-            $this->model->publish();
-        } else {
-            $this->model->unpublish();
-        }
-        $control = JRequest::getVar('_control_');
-
-        $app->redirect("index.php?option={$option}&task={$control}");
-    }
-/*}}}*/
-/*{{{ send */
-    function send() {
-        $option = JRequest::getCmd('option');
-        $app = JFactory::getApplication('administrator');
-        if(!$data = $this->model->getLastPublished()) {
-            $app->enqueueMessage(JText::_("There is no published announcement. Please edit and publish, try it again."), 'error');
-            return $this->execute('display');
-        }
-
-        // Mail
-        $params = &JComponentHelper::getParams('com_seminar');
-        $from = $params->get('mailfrom');
-        $to = $params->get('mailto');
-        if (empty($from) || empty($to)) {
-            $app->enqueueMessage(JText::_("Mail from or mail to has not been setted. Please click \"Options\" button to set"), 'error');
-            return $this->execute('display');
-        }
-
-        $mailer =& JFactory::getMailer();
-        $mailer->setSender(array($from));
-
-        $recipient = explode("\n", $to);
-        $mailer->addRecipient($recipient);
-        $mailer->isHTML(true);
-        $mailer->setSubject("ACLS Seminar on this " . date("l, M. d, Y", strtotime($data->started)));
-        $mailer->setBody($data->content);
-        $send = &$mailer->Send();
-        if ($send !== true) {
-            $app->enqueueMessage(JText::_("Mail fail to send"), 'error');
-            return $this->execute('display');
-        }
-        // Set the send log
-        $date = JFactory::getDate();
-        $mailinfo = array(
-            "from" => $from,
-            "to" => $to,
-            "date" => $date->toMySQL(),
-        );
-        $db = JFactory::getDBO();
-        $q = "UPDATE #__acls_seminar set mailto='" . serialize($mailinfo) . "' WHERE id=" . $data->id;
-        $db->setQuery($q);
-        $db->execute();
-        $app->enqueueMessage(JText::_('Mail success to send'));
         $link = "index.php?option={$option}";
         $app->redirect($link);
     }

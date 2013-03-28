@@ -15,6 +15,9 @@ switch($control) {
     case 'history':
         $control = 'history';
         break;
+    case 'preview':
+        $control = 'preview';
+        break;
 }
 
 // Set var in JRequest

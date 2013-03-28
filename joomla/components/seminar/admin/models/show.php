@@ -120,7 +120,7 @@ class SeminarModelShow extends JModel {
         $row->content = JRequest::getVar('content', '', 'post', 'string', JREQUEST_ALLOWRAW);
         $date = JFactory::getDate();
         // Get saveed
-        $q = 'SELECT * FROM #__acls_seminar WHERE status<>0 ORDER BY id DESC LIMIT 1';
+        $q = 'SELECT * FROM #__acls_seminar WHERE status=1 ORDER BY id DESC LIMIT 1';
         $db = JFactory::getDBO();
         $db->setQuery($q);
         if ($tmp = $db->loadObject()) {

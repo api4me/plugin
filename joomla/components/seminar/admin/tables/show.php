@@ -8,7 +8,7 @@ class TableShow extends JTable {
     */
     var $id = null;
     /**
-    * @var datatime
+    * @var string
     */
     var $started = null;
     /**
@@ -38,24 +38,7 @@ class TableShow extends JTable {
     }
 
     function check() {
-        // 1. started
-        if ($this->status != 0) {
-            if (trim($this->started) == '') {
-                $this->setError(JText::_('Please fill out date of seminar.'));
-                return false;
-            } else {
-                $started = strtotime($this->started);
-                if ($started === false || $started == -1) {
-                    $this->setError(JText::_('The date of seminar is not correct, please check it.'));
-                    return false;
-                }
-                if ($started < strtotime(strftime("%Y-%m-%d"))) {
-                    $this->setError(JText::_('The date of seminar should greater than taday, please check it.'));
-                    return false;
-                }
-            }
-        }
-        // 2. content
+        // 1. content
         if (trim($this->content) == '') {
              $this->setError(JText::_('Please fill out content.'));
              return false;

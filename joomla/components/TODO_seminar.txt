@@ -1,0 +1,29 @@
+Harry 11:28:52 
+Here is the feedback form the seminar organizer.
+
+Sent: Friday, March 15, 2013 8:32 AM
+Subject: Re: Please help to test new ACLS webpage-seminar page
+
+Hi Harry,
+
+I just tried to use the seminar announcement web page to send out the email broadcast successfuly. A few thing needs to be improved or I need to learn how to use it if the feature is already there.
+1) Need to show the email address list or bcc option because we need to cc to the seminar speaker who normally invited from the outside ACLS/Acton Chinese community. They don't have our school email account.
+ 
+2)Need to allow a preview and edit before email out;
+ 
+3)The subject field: some speakers like us to add their topic or a brief summary of the seminar contents in our email subject besides the date. If we could allow to append more characters after the subject "date" would be great.
+ 
+Thank you,
+Shuang
+Harry 11:36:48 
+The first one is a valid request, we need to address it.
+
+The 2nd one we may just give a preview of the content, not the eamil and no editing. 
+
+The 3rd one,  we can change current seminar data text box to the email subject field. The system will simply get whatever there to generate the subject.  No more auto generated string. In such way we don't need to worry about format. It's the user's responsibility to make sure the subject is correct.  
+Harry 11:37:42 
+typo, should be"seminar Date text box"
+Harry 11:41:45 
+
+Harry 11:43:12 
+Remove the "for example ...", make the text edit box longer for the subject. 
